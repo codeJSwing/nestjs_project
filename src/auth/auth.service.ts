@@ -29,11 +29,12 @@ export class AuthService {
     try {
       // 이메일 확인
       const user = await this.userService.getUserByEmail(email)
-      if (!user) {
-        throw new HttpException('no user', HttpStatus.NOT_FOUND)
-      }
       // 패스워드 매칭
-      await bcrypt.compare(plainPassword, user.password)
+      const isPasswordMatching = await bcrypt.compare(plainPassword, user.password)
+      if (!isPasswordMatching) {
+        throw new HttpException('password do not matched', HttpStatus.BAD_REQUEST)
+      }
+      user.password = undefined;
       return user;
     } catch (err) {
       throw new HttpException('something went wrong', HttpStatus.BAD_REQUEST)
