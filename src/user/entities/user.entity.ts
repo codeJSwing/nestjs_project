@@ -1,5 +1,6 @@
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Provider } from './provider.enum';
 
 
 @Entity()
@@ -19,6 +20,13 @@ export class User {
 
   @Column()
   public phone: number;
+
+  @Column({
+    type: 'enum',
+    enum: Provider,
+    default: Provider.LOCAL
+  })
+  public provider: Provider
 
   @BeforeInsert()
   async hashPassword() {
