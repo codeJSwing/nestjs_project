@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { RequestWithUser } from './requestWithUser';
 
 @Controller('auth')
 export class AuthController {
@@ -22,8 +23,9 @@ export class AuthController {
 
   @Post('/login')
   @UseGuards(LocalAuthGuard)
-  async loginUser(@Req() req: any) {
+  async loginUser(@Req() req: RequestWithUser) {
     const user = req.user
-    return user
+    const token = await this.authService.generateJwt(user.id);
+    return {user, token}
   }
 }

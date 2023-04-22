@@ -17,6 +17,10 @@ import * as Joi from '@hapi/joi';
       POSTGRES_USER: Joi.string().required(),
       POSTGRES_PASSWORD: Joi.string().required(),
       POSTGRES_DB: Joi.string().required(),
+
+      // token
+      JWT_ACCESSTOKEN_SECRET: Joi.string().required(),
+      JWT_ACCESSTOKEN_EXPIRATION_TIME: Joi.string().required(),
       PORT: Joi.number(),
     }),
   }),
